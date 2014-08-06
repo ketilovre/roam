@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "author": "Ketil Øvrebø",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ketilovre/j"
+  },
   "dependencies": {
     "lodash": "~2.4.1"
   },
