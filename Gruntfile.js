@@ -45,7 +45,8 @@ module.exports = function(grunt) {
       concat: {
         options: {
           mangle: false,
-          compress:false
+          compress:false,
+          beautify: true
         },
         files: {
           'dist/jpath.js': ['src/jpath.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
