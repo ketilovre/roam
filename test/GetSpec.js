@@ -27,6 +27,11 @@ describe('get', function() {
     'Glazed', 'Sugar', 'Chocolate', 'Maple', 'donut', 'Regular', 'Chocolate', 'None', 'Glazed', 'Chocolate', 'Maple' ]);
   });
 
+  it('should not skip past properties which are not in the path', function() {
+    expect(jpath(json).get('/batters/type')).toEqual([]);
+    expect(jpath(json).get('//batters/type')).toEqual([]);
+  });
+
   it('should return an empty array if no match can be found', function() {
     expect(jpath(json).get('/foo/bar')).toEqual([]);
   });

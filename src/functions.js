@@ -6,7 +6,6 @@
   JPath.prototype.get = function(path) {
     var jpath = this, segments = this.parseSegments(path);
 
-
     return segments.reduce(function(accumulator, segment) {
       return accumulator.map(function(val) {
         if (segment.type === 'deep') {
