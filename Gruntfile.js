@@ -32,17 +32,6 @@ module.exports = function(grunt) {
         files: {
           'dist/j.min.js': ['src/jpath.js', 'src/**/*.js']
         }
-      },
-      concat: {
-        options: {
-          mangle: false,
-          compress: false,
-          beautify: true,
-          preserveComments: true
-        },
-        files: {
-          'dist/j.js': ['src/jpath.js', 'src/**/*.js']
-        }
       }
     },
 
