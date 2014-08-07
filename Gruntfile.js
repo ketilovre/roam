@@ -22,6 +22,10 @@ module.exports = function(grunt) {
       test: {
         files: 'test/**/*.js',
         tasks: 'test'
+      },
+      jpath: {
+        files: 'src/**/*.js',
+        tasks: 'uglify'
       }
     },
 

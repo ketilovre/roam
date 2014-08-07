@@ -1,5 +1,5 @@
 /* global JPath */
-
+/* istanbul ignore next */
 (function() {
   "use strict";
 
