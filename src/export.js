@@ -1,6 +1,21 @@
-/* global JPath */
+/* global JPath, previous */
 
-global['j'] = function(json) {
+(function() {
   "use strict";
-  return new JPath(json);
-};
+
+  var j = function(json) {
+    return new JPath(json);
+  };
+
+  JPath.prototype.noConflict = function() {
+    global.j = previous;
+    return j;
+  };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = j;
+  } else {
+    global.j = j;
+  }
+
+})();

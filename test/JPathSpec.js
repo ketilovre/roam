@@ -1,5 +1,10 @@
 /* global describe, it, expect, json, j */
 
+if (typeof require !== 'undefined') {
+  json = require('./JsonExample.js'); /* jshint ignore:line */
+  j = require('../dist/j.js'); /* jshint ignore:line */
+}
+
 describe("j", function() {
   "use strict";
 
@@ -58,7 +63,6 @@ describe("j", function() {
 
       expect(j(json).count('/batters/batter')).toEqual(3);
       expect(j(json).count('/batters/batter/id')).toEqual(7);
-
       expect(j(json).count('//topping/id')).toEqual(16);
     });
   });
@@ -67,13 +71,17 @@ describe("j", function() {
     it('should return true if a matching property can be found, false otherwise', function() {
       expect(j(json).has('/id')).toBeTrue;
       expect(j(json).has('/type')).toBeTrue;
+
       expect(j(json).has('//id')).toBeTrue;
       expect(j(json).has('//type')).toBeTrue;
+
       expect(j(json).has('/batter')).toBeFalse;
       expect(j(json).has('/batters')).toBeTrue;
       expect(j(json).has('//batter')).toBeTrue;
+
       expect(j(json).has('/things')).toBeFalse;
       expect(j(json).has('//things')).toBeFalse;
+
       expect(j(json).has('//topping/id')).toBeTrue;
       expect(j(json).has('//toppings')).toBeFalse;
     });
@@ -82,6 +90,9 @@ describe("j", function() {
   describe('one', function() {
     it('should return the first matched property', function() {
       expect(j(json).one('/id')).toEqual('0001');
+      expect(j(json).one('//batter/type')).toEqual('Regular');
+      expect(j(json).one('/topping/type')).toEqual('None');
+      expect(j(json).one('//name')).toEqual('Cake');
     });
   });
 });

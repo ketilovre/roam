@@ -1,4 +1,4 @@
-/* jshint unused:false */
+/* exported json */
 var json = [
 	{
 		"id": "0001",
@@ -69,3 +69,7 @@ var json = [
 			]
 	}
 ];
+
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = json;
+}

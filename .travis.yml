@@ -1,10 +1,20 @@
 language: node_js
 
 node_js:
-  - "0.11"
+- '0.11'
+- '0.10'
+
+env:
+  global:
+  - secure: inUf7Ou63FR3iZkCUnP/xo5Lch29czQBk6aas7KEAVYOA9SwAUaojGl3yrKrmnb20xE5G3DhU7gXh/gxlFFXt/QXAb0prcf4I/xH2bVLch0ysDlu52ubdV4lTQn7jJXNjQXYaDzLE1A6xSFPIQ6g9CMqjEqoV+nR7xgkZlJLn1I=
+  - secure: RzsUaeus855iFUACUUwEilA4Q1LE++0Tw0ydw1L7rvu01lhH4eSvTrF+Wq3WEstmpMV0OhzNXPpXcuWBaYc53aytXSEVSGNG+HS0yU9PGZJAWEJQUwWs+QVBa+vfU0vexD+aEF9WYyHLp50XKCmnueeXdeNcTB6R5yYaHViKi50=
+
+addons:
+  sauce_connect: true
 
 before_install: npm install -g grunt-cli codeclimate-test-reporter
 
 after_script:
-  - mv coverage/*/lcov.info coverage/lcov.info
-  - export CODECLIMATE_REPO_TOKEN=6ea18a5dd0ad06193948f3070fdc663ac49c61e597737bbdb2ac28a2b0c323be && codeclimate < coverage/lcov.info
+- mv coverage/*/lcov.info coverage/lcov.info
+- export CODECLIMATE_REPO_TOKEN=6ea18a5dd0ad06193948f3070fdc663ac49c61e597737bbdb2ac28a2b0c323be
+- codeclimate < coverage/lcov.info

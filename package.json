@@ -7,11 +7,12 @@
     "type": "git",
     "url": "https://github.com/ketilovre/j"
   },
+  "main": "dist/j.js",
   "dependencies": {
     "lodash": "~2.4.1"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt ci"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
@@ -22,6 +23,11 @@
     "karma-jasmine": "~0.1.5",
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-coverage": "~0.2.5",
-    "grunt-contrib-watch": "~0.6.1"
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-jasmine-node": "~0.2.1",
+    "karma-chrome-launcher": "~0.1.4",
+    "karma-firefox-launcher": "~0.1.3",
+    "time-grunt": "~0.4.0",
+    "karma-sauce-launcher": "~0.2.10"
   }
 }
