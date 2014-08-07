@@ -12,35 +12,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jasmine-node');
 
   grunt.registerTask('test', ['jshint', 'karma:unit']);
-  grunt.registerTask('build', ['uglify', 'jshint', 'karma:unit', 'karma:minified', 'jasmine_node']);
+  grunt.registerTask('build', ['uglify', 'jshint', 'karma', 'jasmine_node']);
   grunt.registerTask('ci', ['jshint', 'karma', 'jasmine_node']);
   grunt.registerTask('default', 'build');
-
-  var customLaunchers = {
-    sl_chrome: {
-      base: 'SauceLabs',
-      browserName: 'chrome',
-      platform: 'Windows 7',
-      version: '35'
-    },
-    sl_firefox: {
-      base: 'SauceLabs',
-      browserName: 'firefox',
-      version: '30'
-    },
-    sl_ios_safari: {
-      base: 'SauceLabs',
-      browserName: 'iphone',
-      platform: 'OS X 10.9',
-      version: '7.1'
-    },
-    sl_ie_11: {
-      base: 'SauceLabs',
-      browserName: 'internet explorer',
-      platform: 'Windows 8.1',
-      version: '11'
-    }
-  };
 
   grunt.initConfig({
 
@@ -140,25 +114,6 @@ module.exports = function(grunt) {
           reporters: ['dots'],
           browsers: ['PhantomJS'],
           port: 9877
-        }
-      },
-      sauce: {
-        options: {
-          files: [
-            'node_modules/lodash/dist/lodash.min.js',
-            'dist/j.min.js',
-            'test/**/*.js'
-          ],
-          exclude: [
-            'test/BrowserHelper.js'
-          ],
-          sauceLabs: {
-            testName: 'j browser tests'
-          },
-          customLaunchers: customLaunchers,
-          browsers: Object.keys(customLaunchers),
-          reporters: ['dots', 'saucelabs'],
-          port: 9878
         }
       }
     }
