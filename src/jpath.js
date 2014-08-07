@@ -1,6 +1,4 @@
-/* exported JPath, previous */
-
-var previous = global.j;
+/* exported JPath */
 
 var _ = global._;
 
@@ -51,39 +49,5 @@ var JPath = function(json) {
         return a.concat(b);
       }, []);
     }, firstPass);
-  };
-
-  this.shallow = function(identifier, json) {
-    if (_.isArray(json)) {
-      return json.map(function(val) {
-        return _.filter(val, function(asd, key) {
-          return key === identifier;
-        });
-      }).reduce(function(a, b) {
-        return a.concat(b);
-      }, []);
-    }
-    return _.filter(json, function(val, key) {
-      return key === identifier;
-    });
-  };
-
-  this.deep = function(identifier, json) {
-    var memory = [];
-
-    function loop(json) {
-      _.forEach(json, function(val, key) {
-        if (key === identifier) {
-          memory.push(val);
-        } else {
-          if (_.isArray(val) || _.isPlainObject(val)) {
-            loop(val);
-          }
-        }
-      });
-    }
-
-    loop(json);
-    return memory;
   };
 };

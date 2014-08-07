@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        wrap: 'j'
+        wrap: 'jpath'
       },
       min: {
         options: {
@@ -35,7 +35,7 @@ module.exports = function(grunt) {
           compress: true
         },
         files: {
-          'dist/j.min.js': ['src/jpath.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
+          'dist/jpath.min.js': ['src/jpath.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
         }
       },
       concat: {
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
           compress:false
         },
         files: {
-          'dist/j.js': ['src/jpath.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
+          'dist/jpath.js': ['src/jpath.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
         }
       }
     },
@@ -105,7 +105,7 @@ module.exports = function(grunt) {
         options: {
           files: [
             'node_modules/lodash/dist/lodash.min.js',
-            'dist/j.min.js',
+            'dist/jpath.min.js',
             'test/**/*.js'
           ],
           exclude: [
