@@ -1,8 +1,8 @@
-j
+jpath
 =
 
-[![Build Status](https://travis-ci.org/ketilovre/j.svg?branch=master)](https://travis-ci.org/ketilovre/j)
-[![Code Climate](https://codeclimate.com/github/ketilovre/j/badges/gpa.svg)](https://codeclimate.com/github/ketilovre/j)
-[![Test Coverage](https://codeclimate.com/github/ketilovre/j/badges/coverage.svg)](https://codeclimate.com/github/ketilovre/j)
+[![Build Status](https://travis-ci.org/ketilovre/jpath.svg?branch=master)](https://travis-ci.org/ketilovre/jpath)
+[![Code Climate](https://codeclimate.com/github/ketilovre/jpath/badges/gpa.svg)](https://codeclimate.com/github/ketilovre/jpath)
+[![Test Coverage](https://codeclimate.com/github/ketilovre/jpath/badges/coverage.svg)](https://codeclimate.com/github/ketilovre/jpath)
 
 XPath for JSON
