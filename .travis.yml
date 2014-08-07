@@ -1,7 +1,6 @@
 language: node_js
 
 node_js:
-- '0.11'
 - '0.10'
 
 addons:
@@ -10,6 +9,6 @@ addons:
 before_install: npm install -g grunt-cli codeclimate-test-reporter
 
 after_script:
-# - mv coverage/*/lcov.info coverage/lcov.info
-# - export CODECLIMATE_REPO_TOKEN=6ea18a5dd0ad06193948f3070fdc663ac49c61e597737bbdb2ac28a2b0c323be
-# - codeclimate < coverage/lcov.info
+ - mv coverage/*/lcov.info coverage/lcov.info
+ - export CODECLIMATE_REPO_TOKEN=82f023d01dd2d4b67b2055a431f04aec5357c48d96b1887d6c759bf47819248f
+ - codeclimate < coverage/lcov.info
