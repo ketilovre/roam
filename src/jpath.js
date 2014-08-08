@@ -2,7 +2,6 @@
 
 var _ = global._;
 
-/* istanbul ignore next */
 if (typeof _ === 'undefined') {
   if (typeof require !== 'undefined') {
     _ = require('lodash');

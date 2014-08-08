@@ -4,21 +4,35 @@
   "use strict";
 
   JPath.prototype.get = function(path) {
-    var jpath = this, segments = this.parseSegments(path);
-    
-    return _.reduce(segments, function(accumulator, segment) {
-      return _.flatten(_.map(accumulator, function(val, key) {
-        if (segment.type === 'deep') {
-          return jpath.deep(segment.identifier, val);
+    var tmp, memory, jpath = this, segment, segments = this.parseSegments(path);
+
+    memory = this.json;
+    while (segments.length) {
+
+      segment = segments.shift();
+
+      tmp = [];
+
+      if (segment.type === 'shallow') {
+        tmp = tmp.concat(jpath.shallow(segment.identifier, memory));
+      } else {
+        if (memory instanceof Array) {
+          for (var h = 0, m = memory.length; h < m; h++) {
+            tmp = tmp.concat(jpath.deep(segment.identifier, memory[h]));
+          }
         } else {
-          if (key === segment.identifier) {
-            return val;
-          } else {
-            return jpath.shallow(segment.identifier, key, val);
+          for (var prop in memory) {
+            if (memory.hasOwnProperty(prop)) {
+              tmp = tmp.concat(jpath.deep(segment.identifier, memory[prop]));
+            }
           }
         }
-      }), true);
-    }, this.json);
+      }
+
+      memory = tmp;
+    }
+
+    return memory;
   };
 
   JPath.prototype.transform = function(path, callback) {

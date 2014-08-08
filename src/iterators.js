@@ -1,26 +1,27 @@
-/* global JPath, _ */
+/* global JPath */
 
 (function() {
   "use strict";
 
-  JPath.prototype.shallow = function(identifier, key, value) {
-    var prop, memory = [];
+  JPath.prototype.shallow = function(identifier, value) {
+    var memory = [];
 
-    if (_.isPlainObject(value)) {
-      for (prop in value) {
-        if (value.hasOwnProperty(prop) && prop === identifier) {
-          memory.push(value[prop]);
-        }
-      }
-    } else if (_.isArray(value) && _.isNumber(key)) {
-      for(var i = 0, l = value.length; i < l; i++) {
-        for (prop in value[i]) {
-          if (value[i].hasOwnProperty(prop) && prop === identifier) {
-            memory.push(value[i][prop]);
+    if (value[identifier]) {
+      memory.push(value[identifier]);
+    } else {
+      for (var i = 0, l = value.length; i < l; i++) {
+        if (value[i] instanceof Array) {
+          for (var j = 0, k = value[i].length; j < k; j++) {
+            if (value[i][j][identifier]) {
+              memory.push(value[i][j][identifier]);
+            }
           }
+        } else if (value[i][identifier]) {
+          memory.push(value[i][identifier]);
         }
       }
     }
+
     return memory;
   };
 
@@ -28,15 +29,22 @@
     var memory = [];
 
     function loop(json) {
-      _.forEach(json, function(val, key) {
-        if (key === identifier) {
-          memory.push(val);
-        } else {
-          if (_.isArray(val) || _.isPlainObject(val)) {
-            loop(val);
+      if (json instanceof Array) {
+        for (var i = 0, l = json.length; i < l; i++) {
+          loop(json[i]);
+        }
+      } else {
+        if (json[identifier]) {
+          memory.push(json[identifier]);
+        }
+        if (json && json.toString() === '[object Object]') {
+          for (var prop in json) {
+            if (json.hasOwnProperty(prop)) {
+              loop(json[prop]);
+            }
           }
         }
-      });
+      }
     }
 
     loop(value);

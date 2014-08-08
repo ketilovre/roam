@@ -15,20 +15,29 @@
     (function() {
         "use strict";
         JPath.prototype.get = function(path) {
-            var jpath = this, segments = this.parseSegments(path);
-            return _.reduce(segments, function(accumulator, segment) {
-                return _.flatten(_.map(accumulator, function(val, key) {
-                    if (segment.type === "deep") {
-                        return jpath.deep(segment.identifier, val);
+            var tmp, memory, jpath = this, segment, segments = this.parseSegments(path);
+            memory = this.json;
+            while (segments.length) {
+                segment = segments.shift();
+                tmp = [];
+                if (segment.type === "shallow") {
+                    tmp = tmp.concat(jpath.shallow(segment.identifier, memory));
+                } else {
+                    if (memory instanceof Array) {
+                        for (var h = 0, m = memory.length; h < m; h++) {
+                            tmp = tmp.concat(jpath.deep(segment.identifier, memory[h]));
+                        }
                     } else {
-                        if (key === segment.identifier) {
-                            return val;
-                        } else {
-                            return jpath.shallow(segment.identifier, key, val);
+                        for (var prop in memory) {
+                            if (memory.hasOwnProperty(prop)) {
+                                tmp = tmp.concat(jpath.deep(segment.identifier, memory[prop]));
+                            }
                         }
                     }
-                }), true);
-            }, this.json);
+                }
+                memory = tmp;
+            }
+            return memory;
         };
         JPath.prototype.transform = function(path, callback) {
             var segments = this.parseSegments(path);
@@ -73,20 +82,20 @@
     })();
     (function() {
         "use strict";
-        JPath.prototype.shallow = function(identifier, key, value) {
-            var prop, memory = [];
-            if (_.isPlainObject(value)) {
-                for (prop in value) {
-                    if (value.hasOwnProperty(prop) && prop === identifier) {
-                        memory.push(value[prop]);
-                    }
-                }
-            } else if (_.isArray(value) && _.isNumber(key)) {
+        JPath.prototype.shallow = function(identifier, value) {
+            var memory = [];
+            if (value[identifier]) {
+                memory.push(value[identifier]);
+            } else {
                 for (var i = 0, l = value.length; i < l; i++) {
-                    for (prop in value[i]) {
-                        if (value[i].hasOwnProperty(prop) && prop === identifier) {
-                            memory.push(value[i][prop]);
+                    if (value[i] instanceof Array) {
+                        for (var j = 0, k = value[i].length; j < k; j++) {
+                            if (value[i][j][identifier]) {
+                                memory.push(value[i][j][identifier]);
+                            }
                         }
+                    } else if (value[i][identifier]) {
+                        memory.push(value[i][identifier]);
                     }
                 }
             }
@@ -95,15 +104,22 @@
         JPath.prototype.deep = function(identifier, value) {
             var memory = [];
             function loop(json) {
-                _.forEach(json, function(val, key) {
-                    if (key === identifier) {
-                        memory.push(val);
-                    } else {
-                        if (_.isArray(val) || _.isPlainObject(val)) {
-                            loop(val);
+                if (json instanceof Array) {
+                    for (var i = 0, l = json.length; i < l; i++) {
+                        loop(json[i]);
+                    }
+                } else {
+                    if (json[identifier]) {
+                        memory.push(json[identifier]);
+                    }
+                    if (json && json.toString() === "[object Object]") {
+                        for (var prop in json) {
+                            if (json.hasOwnProperty(prop)) {
+                                loop(json[prop]);
+                            }
                         }
                     }
-                });
+                }
             }
             loop(value);
             return memory;
