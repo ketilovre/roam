@@ -1,4 +1,4 @@
-/* global JPath, _ */
+/* global JPath */
 
 (function() {
   "use strict";
@@ -38,33 +38,43 @@
   JPath.prototype.transform = function(path, callback) {
     var segments = this.parseSegments(path);
 
-    callback = callback || function(input) { return input; };
+    if (!callback || !segments.length) {
+      return this.json;
+    }
+
+    function resolveValue(segments, val, key) {
+      if (key === segments[0].identifier && segments.length === 1) {
+        return callback(val);
+      } else if (key === segments[0].identifier) {
+        return loop(val, segments.slice(1));
+      } else if ((segments[0].type === 'deep' || typeof key === 'number') && (val && val instanceof Array || val.toString() === '[object Object]')) {
+        return loop(val, segments);
+      }
+      return val;
+    }
 
     function loop(json, remainingSegments) {
-      return _.map(json, function(val, key) {
-        if (remainingSegments.length > 0) {
-          if (key === remainingSegments[0].identifier && remainingSegments.length === 1) {
-            return {
-              key: key,
-              val: callback(val)
-            };
-          } else if (key === remainingSegments[0].identifier) {
-            return {
-              key: key,
-              val: loop(val, remainingSegments.slice(1))
-            };
-          } else if ((remainingSegments[0].type === 'deep' || _.isNumber(key)) && (_.isArray(val) || _.isPlainObject(val))) {
-            return {
-              key: key,
-              val: loop(val, remainingSegments)
-            };
+      var memory = [];
+
+      if (json instanceof Array) {
+        for (var i = 0, l = json.length; i < l; i++) {
+          memory.push({
+            key: i,
+            val: resolveValue(remainingSegments, json[i], i)
+          });
+        }
+      } else {
+        for (var prop in json) {
+          if (json.hasOwnProperty(prop)) {
+            memory.push({
+              key: prop,
+              val: resolveValue(remainingSegments, json[prop], prop)
+            });
           }
         }
-        return {
-          key: key,
-          val: val
-        };
-      }).reduce(function(accumulator, item) {
+      }
+
+      return memory.reduce(function(accumulator, item) {
         if (!accumulator) {
           var base = item.key === 0 ? [] : {};
           accumulator = base;

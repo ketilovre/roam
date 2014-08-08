@@ -88,7 +88,6 @@ module.exports = function(grunt) {
       unit: {
         options: {
           files: [
-            'node_modules/lodash/dist/lodash.min.js',
             'test/BrowserHelper.js',
             'src/jpath.js',
             'src/**/*.js',
@@ -109,7 +108,6 @@ module.exports = function(grunt) {
       minified: {
         options: {
           files: [
-            'node_modules/lodash/dist/lodash.min.js',
             'dist/jpath.min.js',
             'test/**/*.js'
           ],

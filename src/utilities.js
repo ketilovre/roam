@@ -1,4 +1,4 @@
-/* global JPath, _ */
+/* global JPath */
 
 (function() {
   "use strict";
@@ -16,7 +16,7 @@
   };
 
   JPath.prototype.map = function(path, callback) {
-    return _.map(this.get(path), callback);
+    return this.get(path).map(callback);
   };
 
 })();

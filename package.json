@@ -8,9 +8,6 @@
     "url": "https://github.com/ketilovre/j"
   },
   "main": "dist/j.js",
-  "dependencies": {
-    "lodash": "~2.4.1"
-  },
   "scripts": {
     "test": "grunt ci"
   },
