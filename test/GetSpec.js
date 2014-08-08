@@ -1,4 +1,4 @@
-/* global describe, it, expect, json, jpath */
+/* global describe, it, it, expect, json, jpath */
 
 describe('get', function() {
   "use strict";
@@ -38,5 +38,17 @@ describe('get', function() {
 
   it('should return the original document if no path is submitted', function() {
     expect(jpath(json).get("")).toEqual(json);
+  });
+
+  it('should be behave the same, regardless of whether the base item is an array or object', function() {
+    var fromObj = jpath(json[0]).get('/sauces/sauce');
+    var fromObjRecursive = jpath(json[0]).get('//sauce');
+
+    var fromArr = jpath(json).get('/sauces/sauce');
+    var fromArrRecursive = jpath(json).get('//sauce');
+
+    expect(fromObj).toEqual(fromObjRecursive);
+    expect(fromObjRecursive).toEqual(fromArr);
+    expect(fromArr).toEqual(fromArrRecursive);
   });
 });

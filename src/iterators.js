@@ -3,22 +3,28 @@
 (function() {
   "use strict";
 
-  JPath.prototype.shallow = function(identifier, json) {
-    if (_.isArray(json)) {
-      return json.map(function(val) {
-        return _.filter(val, function(asd, key) {
-          return key === identifier;
-        });
-      }).reduce(function(a, b) {
-        return a.concat(b);
-      }, []);
+  JPath.prototype.shallow = function(identifier, key, value) {
+    var prop, memory = [];
+
+    if (_.isPlainObject(value)) {
+      for (prop in value) {
+        if (value.hasOwnProperty(prop) && prop === identifier) {
+          memory.push(value[prop]);
+        }
+      }
+    } else if (_.isArray(value) && _.isNumber(key)) {
+      for(var i = 0, l = value.length; i < l; i++) {
+        for (prop in value[i]) {
+          if (value[i].hasOwnProperty(prop) && prop === identifier) {
+            memory.push(value[i][prop]);
+          }
+        }
+      }
     }
-    return _.filter(json, function(val, key) {
-      return key === identifier;
-    });
+    return memory;
   };
 
-  JPath.prototype.deep = function(identifier, json) {
+  JPath.prototype.deep = function(identifier, value) {
     var memory = [];
 
     function loop(json) {
@@ -33,7 +39,7 @@
       });
     }
 
-    loop(json);
+    loop(value);
     return memory;
   };
 

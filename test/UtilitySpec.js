@@ -45,4 +45,19 @@ describe('Utilities', function() {
       expect(jpath(json).one('//name')).toEqual('Cake');
     });
   });
+
+  describe('map', function() {
+    it('should receive each element in the array as an argument to the callback', function() {
+      jpath(json).map('/ppu', function(elem) {
+        expect(elem).toEqual(0.55);
+      });
+    });
+
+    it('should apply the callback to each element of the returned array', function() {
+      var mapped = jpath(json).map('/name', function(elem) {
+        return elem.toUpperCase();
+      });
+      expect(mapped).toEqual(['CAKE', 'RAISED', 'OLD FASHIONED']);
+    });
+  });
 });

@@ -5,21 +5,23 @@
 
   JPath.prototype.get = function(path) {
     var jpath = this, segments = this.parseSegments(path);
-
-    return segments.reduce(function(accumulator, segment) {
-      return accumulator.map(function(val) {
+    
+    return _.reduce(segments, function(accumulator, segment) {
+      return _.flatten(_.map(accumulator, function(val, key) {
         if (segment.type === 'deep') {
           return jpath.deep(segment.identifier, val);
         } else {
-          return jpath.shallow(segment.identifier, val);
+          if (key === segment.identifier) {
+            return val;
+          } else {
+            return jpath.shallow(segment.identifier, key, val);
+          }
         }
-      }).reduce(function(a, b) {
-        return a.concat(b);
-      }, []);
+      }), true);
     }, this.json);
   };
 
-  JPath.prototype.map = function(path, callback) {
+  JPath.prototype.transform = function(path, callback) {
     var segments = this.parseSegments(path);
 
     callback = callback || function(input) { return input; };
@@ -37,12 +39,7 @@
               key: key,
               val: loop(val, remainingSegments.slice(1))
             };
-          } else if (remainingSegments[0].type === 'deep' && (_.isArray(val) || _.isPlainObject(val))) {
-            return {
-              key: key,
-              val: loop(val, remainingSegments)
-            };
-          } else if ((_.isArray(val) || _.isPlainObject(val)) && _.isNumber(key)) {
+          } else if ((remainingSegments[0].type === 'deep' || _.isNumber(key)) && (_.isArray(val) || _.isPlainObject(val))) {
             return {
               key: key,
               val: loop(val, remainingSegments)

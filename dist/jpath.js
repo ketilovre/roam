@@ -16,19 +16,21 @@
         "use strict";
         JPath.prototype.get = function(path) {
             var jpath = this, segments = this.parseSegments(path);
-            return segments.reduce(function(accumulator, segment) {
-                return accumulator.map(function(val) {
+            return _.reduce(segments, function(accumulator, segment) {
+                return _.flatten(_.map(accumulator, function(val, key) {
                     if (segment.type === "deep") {
                         return jpath.deep(segment.identifier, val);
                     } else {
-                        return jpath.shallow(segment.identifier, val);
+                        if (key === segment.identifier) {
+                            return val;
+                        } else {
+                            return jpath.shallow(segment.identifier, key, val);
+                        }
                     }
-                }).reduce(function(a, b) {
-                    return a.concat(b);
-                }, []);
+                }), true);
             }, this.json);
         };
-        JPath.prototype.map = function(path, callback) {
+        JPath.prototype.transform = function(path, callback) {
             var segments = this.parseSegments(path);
             callback = callback || function(input) {
                 return input;
@@ -46,12 +48,7 @@
                                 key: key,
                                 val: loop(val, remainingSegments.slice(1))
                             };
-                        } else if (remainingSegments[0].type === "deep" && (_.isArray(val) || _.isPlainObject(val))) {
-                            return {
-                                key: key,
-                                val: loop(val, remainingSegments)
-                            };
-                        } else if ((_.isArray(val) || _.isPlainObject(val)) && _.isNumber(key)) {
+                        } else if ((remainingSegments[0].type === "deep" || _.isNumber(key)) && (_.isArray(val) || _.isPlainObject(val))) {
                             return {
                                 key: key,
                                 val: loop(val, remainingSegments)
@@ -76,21 +73,26 @@
     })();
     (function() {
         "use strict";
-        JPath.prototype.shallow = function(identifier, json) {
-            if (_.isArray(json)) {
-                return json.map(function(val) {
-                    return _.filter(val, function(asd, key) {
-                        return key === identifier;
-                    });
-                }).reduce(function(a, b) {
-                    return a.concat(b);
-                }, []);
+        JPath.prototype.shallow = function(identifier, key, value) {
+            var prop, memory = [];
+            if (_.isPlainObject(value)) {
+                for (prop in value) {
+                    if (value.hasOwnProperty(prop) && prop === identifier) {
+                        memory.push(value[prop]);
+                    }
+                }
+            } else if (_.isArray(value) && _.isNumber(key)) {
+                for (var i = 0, l = value.length; i < l; i++) {
+                    for (prop in value[i]) {
+                        if (value[i].hasOwnProperty(prop) && prop === identifier) {
+                            memory.push(value[i][prop]);
+                        }
+                    }
+                }
             }
-            return _.filter(json, function(val, key) {
-                return key === identifier;
-            });
+            return memory;
         };
-        JPath.prototype.deep = function(identifier, json) {
+        JPath.prototype.deep = function(identifier, value) {
             var memory = [];
             function loop(json) {
                 _.forEach(json, function(val, key) {
@@ -103,29 +105,28 @@
                     }
                 });
             }
-            loop(json);
+            loop(value);
             return memory;
         };
     })();
     (function() {
         "use strict";
         JPath.prototype.parseSegments = function(path) {
+            var offset = 0, limit = 0, segments = [];
             if (!path) {
                 return [];
             }
-            return path.match(/(\/\/|\/)(\w+)/g).map(function(val) {
-                if (val.indexOf("//") > -1) {
-                    return {
-                        type: "deep",
-                        identifier: val.replace(/\/\/|\//, "")
-                    };
-                } else {
-                    return {
-                        type: "shallow",
-                        identifier: val.replace(/\/\/|\//, "")
-                    };
-                }
-            });
+            while (limit >= 0) {
+                path = path.substr(limit + offset);
+                offset = path.charAt(1) === "/" ? 2 : 1;
+                limit = path.indexOf("/", offset) - offset;
+                var segment = {
+                    type: offset === 2 ? "deep" : "shallow",
+                    identifier: path.substr(offset, limit > 0 ? limit : undefined)
+                };
+                segments.push(segment);
+            }
+            return segments;
         };
     })();
     (function() {
@@ -138,6 +139,9 @@
         };
         JPath.prototype.one = function(path) {
             return this.get(path).shift();
+        };
+        JPath.prototype.map = function(path, callback) {
+            return _.map(this.get(path), callback);
         };
     })();
     (function() {

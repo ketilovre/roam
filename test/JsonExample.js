@@ -24,6 +24,10 @@ var json = [
 				{ "id": "5006", "type": "Chocolate with Sprinkles" },
 				{ "id": "5003", "type": "Chocolate" },
 				{ "id": "5004", "type": "Maple" }
+			],
+		"sauces":
+			[
+				{ "sauce": "Chocolate" }
 			]
 	},
 	{

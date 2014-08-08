@@ -1,6 +1,6 @@
 /* global describe, it, expect, json, jpath */
 
-describe('map', function() {
+describe('transform', function() {
   "use strict";
 
   it('should find and modify values in-place, and return the whole object', function() {
@@ -10,7 +10,7 @@ describe('map', function() {
       return 'foo';
     });
 
-    var mapped = j.map('//batter/type', function() {
+    var mapped = j.transform('//batter/type', function() {
       return 'foo';
     });
 
@@ -20,21 +20,25 @@ describe('map', function() {
   });
 
   it('should return the original object unchanged if no callback is passed', function() {
-    expect(jpath(json).map()).toEqual(json);
-    expect(jpath(json).map('')).toEqual(json);
-    expect(jpath(json).map('//id')).toEqual(json);
-    expect(jpath(json).map('//toppings/id')).toEqual(json);
+    expect(jpath(json).transform()).toEqual(json);
+    expect(jpath(json).transform('')).toEqual(json);
+    expect(jpath(json).transform('//id')).toEqual(json);
+    expect(jpath(json).transform('//toppings/id')).toEqual(json);
   });
 
   it('should generate the same result with different, but equivalent, paths', function() {
-    var control = jpath(json).map('//batter/type');
-    expect(jpath(json).map('/batters/batter/type')).toEqual(control);
+    var control = jpath(json).transform('//batter/type', function(val) {
+      return val.toUpperCase();
+    });
+    expect(jpath(json).transform('/batters/batter/type', function(val) {
+      return val.toUpperCase();
+    })).toEqual(control);
   });
 
   it('should not arbitrarily skip past items which are not in the path', function() {
-    var unchanged = jpath(json).map('//batters/type', function() { //Skips the 'batter'-prop
+    var unchanged = jpath(json).transform('//batters/type', function() { //Skips the 'batter'-prop, changes nothing.
       return 'foo';
     });
-    expect(JSON.stringify(json)).toEqual(JSON.stringify(unchanged));
+    expect(json).toEqual(unchanged);
   });
 });
