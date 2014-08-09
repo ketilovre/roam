@@ -46,7 +46,8 @@ module.exports = function(grunt) {
         options: {
           mangle: false,
           compress:false,
-          beautify: true
+          beautify: true,
+          preserveComments: 'some'
         },
         files: {
           'dist/jpath.js': ['src/jpath.js', 'src/**/*.js', '!src/export.js', 'src/export.js']

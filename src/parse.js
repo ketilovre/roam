@@ -4,29 +4,26 @@
   "use strict";
 
   JPath.prototype.parseSegments = function(path) {
-    var offset = 0, limit = 0, segments = [];
+    var isRecursive, index = -1, result = [];
 
     if (!path) {
       return [];
     }
 
-    while (limit >= 0) {
+    var segments = path.split('.');
 
-      path = path.substr(limit + offset);
+    while (++index < segments.length) {
 
-      offset = path.charAt(1) === '/' ? 2 : 1;
-      limit = path.indexOf('/', offset) - offset;
+      isRecursive = segments[index].charAt(0) === '*';
 
-      var segment = {
-        type: offset === 2 ? 'deep' : 'shallow',
-        identifier: path.substr(offset, limit > 0 ? limit : undefined)
-      };
-
-      segments.push(segment);
+      result.push({
+        type: isRecursive ? 'deep' : 'shallow',
+        identifier: isRecursive ? segments[index].slice(1) : segments[index]
+      });
 
     }
 
-    return segments;
+    return result;
   };
 
 })();

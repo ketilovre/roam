@@ -80,13 +80,14 @@
     (function() {
         "use strict";
         JPath.prototype.shallow = function(identifier, value) {
-            var memory = [];
+            var j, i = -1, memory = [];
             if (value[identifier]) {
                 memory.push(value[identifier]);
             } else {
-                for (var i = 0, l = value.length; i < l; i++) {
+                while (++i < value.length) {
                     if (value[i] instanceof Array) {
-                        for (var j = 0, k = value[i].length; j < k; j++) {
+                        j = -1;
+                        while (++j < value[i].length) {
                             if (value[i][j][identifier]) {
                                 memory.push(value[i][j][identifier]);
                             }
@@ -101,8 +102,9 @@
         JPath.prototype.deep = function(identifier, value) {
             var memory = [];
             function loop(json) {
+                var i = -1;
                 if (json instanceof Array) {
-                    for (var i = 0, l = json.length; i < l; i++) {
+                    while (++i < json.length) {
                         loop(json[i]);
                     }
                 } else {
@@ -125,21 +127,19 @@
     (function() {
         "use strict";
         JPath.prototype.parseSegments = function(path) {
-            var offset = 0, limit = 0, segments = [];
+            var isRecursive, index = -1, result = [];
             if (!path) {
                 return [];
             }
-            while (limit >= 0) {
-                path = path.substr(limit + offset);
-                offset = path.charAt(1) === "/" ? 2 : 1;
-                limit = path.indexOf("/", offset) - offset;
-                var segment = {
-                    type: offset === 2 ? "deep" : "shallow",
-                    identifier: path.substr(offset, limit > 0 ? limit : undefined)
-                };
-                segments.push(segment);
+            var segments = path.split(".");
+            while (++index < segments.length) {
+                isRecursive = segments[index].charAt(0) === "*";
+                result.push({
+                    type: isRecursive ? "deep" : "shallow",
+                    identifier: isRecursive ? segments[index].slice(1) : segments[index]
+                });
             }
-            return segments;
+            return result;
         };
     })();
     (function() {
@@ -153,8 +153,23 @@
         JPath.prototype.one = function(path) {
             return this.get(path).shift();
         };
+        JPath.prototype.filter = function(path, callback) {
+            var data, index = -1, arr = [];
+            data = this.get(path);
+            while (++index < data.length) {
+                if (callback(data[index], index, data)) {
+                    arr.push(data[index]);
+                }
+            }
+            return arr;
+        };
         JPath.prototype.map = function(path, callback) {
-            return this.get(path).map(callback);
+            var data, index = -1, arr = [];
+            data = this.get(path);
+            while (++index < data.length) {
+                arr.push(callback(data[index], index, data));
+            }
+            return arr;
         };
     })();
     (function() {
