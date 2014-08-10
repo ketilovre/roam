@@ -39,7 +39,7 @@ module.exports = function(grunt) {
           compress: true
         },
         files: {
-          'dist/jpath.min.js': ['src/jpath.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
+          'dist/roam.min.js': ['src/roam.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
         }
       },
       concat: {
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
           preserveComments: 'some'
         },
         files: {
-          'dist/jpath.js': ['src/jpath.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
+          'dist/roam.js': ['src/roam.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
         }
       }
     },
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
         options: {
           files: [
             'test/BrowserHelper.js',
-            'src/jpath.js',
+            'src/roam.js',
             'src/**/*.js',
             'test/**/*.js'
           ],
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
       minified: {
         options: {
           files: [
-            'dist/jpath.min.js',
+            'dist/roam.min.js',
             'test/**/*.js'
           ],
           exclude: [

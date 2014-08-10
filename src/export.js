@@ -1,16 +1,16 @@
-/* global JPath */
+/* global Roam */
 
 (function() {
   "use strict";
 
-  var jpath = function(json) {
-    return new JPath(json);
+  var roam = function(json) {
+    return new Roam(json);
   };
 
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = jpath;
+    module.exports = roam;
   } else {
-    global.jpath = jpath;
+    global.roam = roam;
   }
 
 })();

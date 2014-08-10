@@ -1,11 +1,12 @@
-/* global JPath */
+/* global Roam */
 
 (function() {
   "use strict";
 
-  JPath.prototype.get = function(path) {
-    var tmp, memory, jpath = this, segment, segments = this.parseSegments(path);
+  Roam.prototype.get = function(path) {
+    var tmp, memory, segment, segments;
 
+    segments = this.parseSegments(path);
     memory = this.json;
     while (segments.length) {
 
@@ -14,16 +15,16 @@
       tmp = [];
 
       if (segment.type === 'shallow') {
-        tmp = tmp.concat(jpath.shallow(segment.identifier, memory));
+        tmp = tmp.concat(this.shallow(segment.identifier, memory));
       } else {
         if (memory instanceof Array) {
           for (var h = 0, m = memory.length; h < m; h++) {
-            tmp = tmp.concat(jpath.deep(segment.identifier, memory[h]));
+            tmp = tmp.concat(this.deep(segment.identifier, memory[h]));
           }
         } else {
           for (var prop in memory) {
             if (memory.hasOwnProperty(prop)) {
-              tmp = tmp.concat(jpath.deep(segment.identifier, memory[prop]));
+              tmp = tmp.concat(this.deep(segment.identifier, memory[prop]));
             }
           }
         }
@@ -35,7 +36,7 @@
     return memory;
   };
 
-  JPath.prototype.transform = function(path, callback) {
+  Roam.prototype.transform = function(path, callback) {
     var segments = this.parseSegments(path);
 
     if (!callback || !segments.length) {

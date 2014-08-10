@@ -1,9 +1,9 @@
-/* global JPath */
+/* global Roam */
 
 (function() {
   "use strict";
 
-  JPath.prototype.shallow = function(identifier, value) {
+  Roam.prototype.shallow = function(identifier, value) {
     var current, j, i = -1, memory = [];
 
     if (!(value instanceof Array) && value[identifier]) {
@@ -38,7 +38,7 @@
     return memory;
   };
 
-  JPath.prototype.deep = function(identifier, value) {
+  Roam.prototype.deep = function(identifier, value) {
     var memory = [];
 
     function loop(json) {

@@ -1,21 +1,21 @@
-/* global JPath */
+/* global Roam */
 
 (function() {
   "use strict";
 
-  JPath.prototype.has = function(path) {
+  Roam.prototype.has = function(path) {
     return !!this.get(path).length;
   };
 
-  JPath.prototype.count = function(path) {
+  Roam.prototype.count = function(path) {
     return this.get(path).length;
   };
 
-  JPath.prototype.one = function(path) {
+  Roam.prototype.one = function(path) {
     return this.get(path).shift();
   };
 
-  JPath.prototype.filter = function(path, callback) {
+  Roam.prototype.filter = function(path, callback) {
     var data, index = -1, arr = [];
     data = this.get(path);
 
@@ -28,7 +28,7 @@
     return arr;
   };
 
-  JPath.prototype.map = function(path, callback) {
+  Roam.prototype.map = function(path, callback) {
     var data, index = -1, arr = [];
     data = this.get(path);
 

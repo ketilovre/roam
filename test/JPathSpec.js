@@ -1,21 +1,21 @@
-/* global describe, it, expect, json, jpath */
+/* global describe, it, expect, json, roam */
 
 if (typeof require !== 'undefined') {
   json = require('./JsonExample.js'); /* jshint ignore:line */
-  jpath = require('../dist/jpath.js'); /* jshint ignore:line */
+  roam = require('../dist/roam.js'); /* jshint ignore:line */
 }
 
-describe("JPath", function() {
+describe("roam", function() {
   "use strict";
 
-  it("should create a JPath object", function() {
-    expect(jpath(json)).toBeDefined();
+  it("should create a Roam object", function() {
+    expect(roam(json)).toBeDefined();
 
-    expect(jpath(json).get).toBeDefined();
-    expect(jpath(json).map).toBeDefined();
-    expect(jpath(json).one).toBeDefined();
-    expect(jpath(json).has).toBeDefined();
-    expect(jpath(json).count).toBeDefined();
+    expect(roam(json).get).toBeDefined();
+    expect(roam(json).map).toBeDefined();
+    expect(roam(json).one).toBeDefined();
+    expect(roam(json).has).toBeDefined();
+    expect(roam(json).count).toBeDefined();
 
   });
 });

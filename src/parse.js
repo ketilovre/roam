@@ -1,9 +1,9 @@
-/* global JPath */
+/* global Roam */
 
 (function() {
   "use strict";
 
-  JPath.prototype.parseSegments = function(path) {
+  Roam.prototype.parseSegments = function(path) {
     var isRecursive, index = -1, result = [];
 
     if (!path) {
