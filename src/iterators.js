@@ -4,24 +4,32 @@
   "use strict";
 
   JPath.prototype.shallow = function(identifier, value) {
-    var j, i = -1, memory = [];
+    var current, j, i = -1, memory = [];
 
-    if (value[identifier]) {
+    if (!(value instanceof Array) && value[identifier]) {
       memory.push(value[identifier]);
     } else {
 
       while (++i < value.length) {
-        if (value[i] instanceof Array) {
 
-          j = -1;
-          while (++j < value[i].length) {
-            if (value[i][j][identifier]) {
-              memory.push(value[i][j][identifier]);
+        current = value[i];
+        if (current instanceof Array) {
+
+          if (current[identifier]) {
+            memory.push(current[identifier]);
+          } else {
+            j = -1;
+            while (++j < current.length) {
+              if (current[j][identifier]) {
+                memory.push(current[j][identifier]);
+              }
             }
           }
 
-        } else if (value[i][identifier]) {
-          memory.push(value[i][identifier]);
+        } else if (current[identifier]) {
+          memory.push(current[identifier]);
+        } else if (+identifier === i) {
+          memory.push(current);
         }
       }
 
@@ -44,7 +52,7 @@
         if (json[identifier]) {
           memory.push(json[identifier]);
         }
-        if (json && json.toString() === '[object Object]') {
+        if (json && typeof json === 'object') {
           for (var prop in json) {
             if (json.hasOwnProperty(prop)) {
               loop(json[prop]);

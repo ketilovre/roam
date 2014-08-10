@@ -51,4 +51,15 @@ describe('get', function() {
     expect(fromObjRecursive).toEqual(fromArr);
     expect(fromArr).toEqual(fromArrRecursive);
   });
+
+  it('should allow users to specify array indexes to return', function() {
+    expect(jpath(json).get('0')).toEqual([json[0]]);
+
+    var toppings = [{id: '5007', type: 'Powdered Sugar'}, {id: '5003', type: 'Chocolate' }, {id: '5004', type: 'Maple'}];
+    expect(jpath(json).get('topping.3')).toEqual(toppings);
+
+    var batters = [{"id": "1003", "type": "Blueberry"}];
+    expect(jpath(json).get('batters.batter.2')).toEqual(batters);
+    expect(jpath(json).get('*batter.2')).toEqual(batters);
+  });
 });
