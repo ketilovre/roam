@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "author": "Ketil Øvrebø",
   "license": "MIT",
+  "description": "XPath-like queries and in-place transformations for JSON documents",
   "repository": {
     "type": "git",
     "url": "https://github.com/ketilovre/roam"
