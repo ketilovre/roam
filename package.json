@@ -1,6 +1,6 @@
 {
   "name": "roam",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Ketil Øvrebø",
   "license": "MIT",
   "description": "XPath-like queries and in-place transformations for JSON documents",
