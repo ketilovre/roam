@@ -1,16 +1,20 @@
-/* global Roam */
+/* jshint ignore:start */
+/* istanbul ignore:next */
+(function (root, factory) {
 
-(function() {
-  "use strict";
-
-  var roam = function(json) {
-    return new Roam(json);
-  };
-
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = roam;
-  } else {
-    global.roam = roam;
+    if (typeof define === 'function' && define.amd) {
+        define([], factory);
+    } else if (typeof module !== 'undefined' && typeof exports === 'object') {
+        module.exports = factory();
+    } else {
+        root.roam = factory();
   }
 
-})();
+}(this, function () {
+
+    return function(json) {
+      return new Roam(json);
+    };
+
+}));
+/* jshint ignore:start */

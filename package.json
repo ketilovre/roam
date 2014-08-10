@@ -9,7 +9,7 @@
   },
   "main": "dist/roam.js",
   "scripts": {
-    "test": "grunt ci"
+    "test": "grunt jasmine_node"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
@@ -22,6 +22,7 @@
     "karma-coverage": "~0.2.5",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-jasmine-node": "~0.2.1",
-    "time-grunt": "~0.4.0"
+    "time-grunt": "~0.4.0",
+    "grunt-release": "~0.7.0"
   }
 }

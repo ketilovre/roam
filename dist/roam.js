@@ -180,17 +180,19 @@
             return arr;
         };
     })();
-    (function() {
-        "use strict";
-        var roam = function(json) {
+    (function(root, factory) {
+        if (typeof define === "function" && define.amd) {
+            define([], factory);
+        } else if (typeof module !== "undefined" && typeof exports === "object") {
+            module.exports = factory();
+        } else {
+            root.roam = factory();
+        }
+    })(this, function() {
+        return function(json) {
             return new Roam(json);
         };
-        if (typeof module !== "undefined" && module.exports) {
-            module.exports = roam;
-        } else {
-            global.roam = roam;
-        }
-    })();
+    });
 })({}, function() {
     return this;
 }());

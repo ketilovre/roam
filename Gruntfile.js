@@ -10,6 +10,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-release');
 
   grunt.registerTask('test', ['jshint', 'karma:unit']);
   grunt.registerTask('build', ['uglify', 'jshint', 'karma', 'jasmine_node']);
