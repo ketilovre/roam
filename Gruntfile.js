@@ -81,9 +81,7 @@ module.exports = function(grunt) {
         plugins: [
           'karma-jasmine',
           'karma-coverage',
-          'karma-phantomjs-launcher',
-          'karma-chrome-launcher',
-          'karma-firefox-launcher'
+          'karma-phantomjs-launcher'
         ]
       },
       unit: {
