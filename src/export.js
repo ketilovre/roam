@@ -1,6 +1,7 @@
-/* jshint ignore:start */
-/* istanbul ignore:next */
+/* global Roam, define */
+
 (function (root, factory) {
+  "use strict";
 
     if (typeof define === 'function' && define.amd) {
         define([], factory);
@@ -11,6 +12,7 @@
   }
 
 }(this, function () {
+  "use strict";
 
     return function(json) {
       return new Roam(json);

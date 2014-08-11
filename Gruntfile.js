@@ -88,7 +88,6 @@ module.exports = function(grunt) {
       unit: {
         options: {
           files: [
-            'test/BrowserHelper.js',
             'src/roam.js',
             'src/**/*.js',
             'test/**/*.js'
@@ -110,9 +109,6 @@ module.exports = function(grunt) {
           files: [
             'dist/roam.min.js',
             'test/**/*.js'
-          ],
-          exclude: [
-            'test/BrowserHelper.js'
           ],
           reporters: ['dots'],
           browsers: ['PhantomJS'],

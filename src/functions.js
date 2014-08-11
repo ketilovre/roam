@@ -48,7 +48,7 @@
         return callback(val);
       } else if (key === segments[0].identifier) {
         return loop(val, segments.slice(1));
-      } else if ((segments[0].type === 'deep' || typeof key === 'number') && (val && val instanceof Array || val.toString() === '[object Object]')) {
+      } else if ((segments[0].type === 'deep' || typeof key === 'number') && (val instanceof Array || (typeof val === 'object' && val !== null))) {
         return loop(val, segments);
       }
       return val;

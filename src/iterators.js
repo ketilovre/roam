@@ -48,15 +48,13 @@
         while (++i < json.length) {
           loop(json[i]);
         }
-      } else {
-        if (json[identifier]) {
+      } else if (json !== null && typeof json === 'object') {
+        if (json.hasOwnProperty(identifier)) {
           memory.push(json[identifier]);
         }
-        if (json && typeof json === 'object') {
-          for (var prop in json) {
-            if (json.hasOwnProperty(prop)) {
-              loop(json[prop]);
-            }
+        for (var prop in json) {
+          if (json.hasOwnProperty(prop)) {
+            loop(json[prop]);
           }
         }
       }

@@ -42,7 +42,7 @@
                     return callback(val);
                 } else if (key === segments[0].identifier) {
                     return loop(val, segments.slice(1));
-                } else if ((segments[0].type === "deep" || typeof key === "number") && (val && val instanceof Array || val.toString() === "[object Object]")) {
+                } else if ((segments[0].type === "deep" || typeof key === "number") && (val instanceof Array || typeof val === "object" && val !== null)) {
                     return loop(val, segments);
                 }
                 return val;
@@ -115,15 +115,13 @@
                     while (++i < json.length) {
                         loop(json[i]);
                     }
-                } else {
-                    if (json[identifier]) {
+                } else if (json !== null && typeof json === "object") {
+                    if (json.hasOwnProperty(identifier)) {
                         memory.push(json[identifier]);
                     }
-                    if (json && typeof json === "object") {
-                        for (var prop in json) {
-                            if (json.hasOwnProperty(prop)) {
-                                loop(json[prop]);
-                            }
+                    for (var prop in json) {
+                        if (json.hasOwnProperty(prop)) {
+                            loop(json[prop]);
                         }
                     }
                 }
@@ -181,6 +179,7 @@
         };
     })();
     (function(root, factory) {
+        "use strict";
         if (typeof define === "function" && define.amd) {
             define([], factory);
         } else if (typeof module !== "undefined" && typeof exports === "object") {
@@ -189,6 +188,7 @@
             root.roam = factory();
         }
     })(this, function() {
+        "use strict";
         return function(json) {
             return new Roam(json);
         };
