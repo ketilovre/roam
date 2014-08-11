@@ -21,9 +21,9 @@
     "eqnull": true,
     "browser": true,
     "maxparams": 5,
-    "maxdepth": 15,
+    "maxdepth": 5,
     "maxstatements": 25,
-    "maxcomplexity": 15,
+    "maxcomplexity": 10,
 
     "indent": 2
 }

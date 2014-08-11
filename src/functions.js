@@ -18,10 +18,10 @@
         tmp = tmp.concat(this.shallow(segment.identifier, memory));
       } else {
         if (memory instanceof Array) {
-          for (var h = 0, m = memory.length; h < m; h++) {
-            tmp = tmp.concat(this.deep(segment.identifier, memory[h]));
+          for (var i = 0, l = memory.length; i < l; i++) {
+            tmp = tmp.concat(this.deep(segment.identifier, memory[i]));
           }
-        } else {
+        } else if (memory !== null && typeof memory === 'object') {
           for (var prop in memory) {
             if (memory.hasOwnProperty(prop)) {
               tmp = tmp.concat(this.deep(segment.identifier, memory[prop]));
@@ -48,7 +48,7 @@
         return callback(val);
       } else if (key === segments[0].identifier) {
         return loop(val, segments.slice(1));
-      } else if ((segments[0].type === 'deep' || typeof key === 'number') && (val instanceof Array || (typeof val === 'object' && val !== null))) {
+      } else if (val !== null && typeof val === 'object' && (segments[0].type === 'deep' || typeof key === 'number')) {
         return loop(val, segments);
       }
       return val;

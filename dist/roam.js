@@ -17,10 +17,10 @@
                     tmp = tmp.concat(this.shallow(segment.identifier, memory));
                 } else {
                     if (memory instanceof Array) {
-                        for (var h = 0, m = memory.length; h < m; h++) {
-                            tmp = tmp.concat(this.deep(segment.identifier, memory[h]));
+                        for (var i = 0, l = memory.length; i < l; i++) {
+                            tmp = tmp.concat(this.deep(segment.identifier, memory[i]));
                         }
-                    } else {
+                    } else if (memory !== null && typeof memory === "object") {
                         for (var prop in memory) {
                             if (memory.hasOwnProperty(prop)) {
                                 tmp = tmp.concat(this.deep(segment.identifier, memory[prop]));
@@ -42,7 +42,7 @@
                     return callback(val);
                 } else if (key === segments[0].identifier) {
                     return loop(val, segments.slice(1));
-                } else if ((segments[0].type === "deep" || typeof key === "number") && (val instanceof Array || typeof val === "object" && val !== null)) {
+                } else if (val !== null && typeof val === "object" && (segments[0].type === "deep" || typeof key === "number")) {
                     return loop(val, segments);
                 }
                 return val;
@@ -82,24 +82,20 @@
         "use strict";
         Roam.prototype.shallow = function(identifier, value) {
             var current, j, i = -1, memory = [];
-            if (!(value instanceof Array) && value[identifier]) {
+            if (!(value instanceof Array) && value.hasOwnProperty(identifier)) {
                 memory.push(value[identifier]);
             } else {
                 while (++i < value.length) {
                     current = value[i];
-                    if (current instanceof Array) {
-                        if (current[identifier]) {
-                            memory.push(current[identifier]);
-                        } else {
-                            j = -1;
-                            while (++j < current.length) {
-                                if (current[j][identifier]) {
-                                    memory.push(current[j][identifier]);
-                                }
+                    if (current.hasOwnProperty(identifier)) {
+                        memory.push(current[identifier]);
+                    } else if (current instanceof Array) {
+                        j = -1;
+                        while (++j < current.length) {
+                            if (current[j].hasOwnProperty(identifier)) {
+                                memory.push(current[j][identifier]);
                             }
                         }
-                    } else if (current[identifier]) {
-                        memory.push(current[identifier]);
                     } else if (+identifier === i) {
                         memory.push(current);
                     }
@@ -120,7 +116,7 @@
                         memory.push(json[identifier]);
                     }
                     for (var prop in json) {
-                        if (json.hasOwnProperty(prop)) {
+                        if (json[prop] !== null && typeof json[prop] === "object") {
                             loop(json[prop]);
                         }
                     }

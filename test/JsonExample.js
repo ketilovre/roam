@@ -6,6 +6,7 @@ var json = [
 		"name": "Cake",
 		"ppu": 0.55,
 		"recipe": null,
+		"frosting": "",
 		"batters":
 			{
 				"batter":
@@ -37,6 +38,7 @@ var json = [
 		"name": "Raised",
 		"ppu": 0.55,
 		"recipe": false,
+		"frosting": "Vanilla",
 		"batters":
 			{
 				"batter":
@@ -58,7 +60,8 @@ var json = [
 		"type": "donut",
 		"name": "Old Fashioned",
 		"ppu": 0.55,
-		"recipe": true,
+		"recipe": 0,
+		"frosting": "Chocolate",
 		"batters":
 			{
 				"batter":

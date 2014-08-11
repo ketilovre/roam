@@ -62,4 +62,12 @@ describe('get', function() {
     expect(roam(json).get('batters.batter.2')).toEqual(batters);
     expect(roam(json).get('*batter.2')).toEqual(batters);
   });
+
+  it('should get nulls, boolean false and other falsy values', function() {
+    expect(roam(json).get('recipe')).toEqual([null, false, 0]);
+    expect(roam(json).get('*recipe')).toEqual([null, false, 0]);
+
+    expect(roam(json).get('frosting')).toEqual(["", "Vanilla", "Chocolate"]);
+    expect(roam(json).get('*frosting')).toEqual(["", "Vanilla", "Chocolate"]);
+  });
 });
