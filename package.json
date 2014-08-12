@@ -8,10 +8,19 @@
     "type": "git",
     "url": "https://github.com/ketilovre/roam"
   },
+
   "main": "dist/roam.js",
   "scripts": {
     "test": "grunt jasmine_node"
   },
+  "keywords": [
+    "jpath",
+    "xpath",
+    "json",
+    "transform",
+    "search",
+    "query"
+  ],
   "devDependencies": {
     "benchmark": "~1.0.0",
     "grunt": "~0.4.5",
