@@ -1,10 +1,20 @@
-# roam
+# Roam
 
 [![Build Status](https://travis-ci.org/ketilovre/roam.svg?branch=master)](https://travis-ci.org/ketilovre/roam)
 [![Code Climate](https://codeclimate.com/github/ketilovre/roam/badges/gpa.svg)](https://codeclimate.com/github/ketilovre/roam)
 [![Test Coverage](https://codeclimate.com/github/ketilovre/roam/badges/coverage.svg)](https://codeclimate.com/github/ketilovre/roam)
 
 XPath-like queries and in-place transformations for JSON documents.
+
+## Install
+
+    npm install --save roam
+
+or
+
+    bower install --save roam
+
+In the browser, Roam can be used with or without RequireJS.
 
 ## The basics
 
