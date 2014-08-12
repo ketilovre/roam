@@ -18,4 +18,10 @@ describe("roam", function() {
     expect(roam(json).count).toBeDefined();
 
   });
+
+  it('should accept both strings and objects', function() {
+    var json = {"name": "jack", "age": 2};
+    var jsonStr = '{"name": "jack", "age": 2}';
+    expect(roam(json).get()).toEqual(roam(jsonStr).get());
+  });
 });
