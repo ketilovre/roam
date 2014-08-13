@@ -3,7 +3,7 @@
 (function() {
   "use strict";
 
-  Roam.prototype.shallow = function(identifier, value) {
+  function shallow(identifier, value) {
     var current, j, i = -1, memory = [];
 
     if (!(value instanceof Array) && value.hasOwnProperty(identifier)) {
@@ -32,9 +32,9 @@
     }
 
     return memory;
-  };
+  }
 
-  Roam.prototype.deep = function(identifier, value) {
+  function deep(identifier, value) {
     var memory = [];
 
     function loop(json) {
@@ -57,6 +57,39 @@
     }
 
     loop(value);
+    return memory;
+  }
+
+  Roam.prototype.get = function(path) {
+    var tmp, segment,
+    segments = this.parseSegments(path),
+    memory = this.json;
+
+    while (segments.length) {
+
+      segment = segments.shift();
+
+      tmp = [];
+
+      if (segment.type === 'shallow') {
+        tmp = shallow(segment.identifier, memory);
+      } else {
+        if (memory instanceof Array) {
+          for (var i = 0, l = memory.length; i < l; i++) {
+            tmp = tmp.concat(deep(segment.identifier, memory[i]));
+          }
+        } else if (memory !== null && typeof memory === 'object') {
+          for (var prop in memory) {
+            if (memory.hasOwnProperty(prop)) {
+              tmp = tmp.concat(deep(segment.identifier, memory[prop]));
+            }
+          }
+        }
+      }
+
+      memory = tmp;
+    }
+
     return memory;
   };
 
