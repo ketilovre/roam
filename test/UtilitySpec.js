@@ -37,15 +37,6 @@ describe('Utilities', function() {
     });
   });
 
-  describe('one', function() {
-    it('should return the first matched property', function() {
-      expect(roam(json).one('id')).toEqual('0001');
-      expect(roam(json).one('*batter.type')).toEqual('Regular');
-      expect(roam(json).one('topping.type')).toEqual('None');
-      expect(roam(json).one('*name')).toEqual('Cake');
-    });
-  });
-
   describe('filter', function() {
     it('should receive standard filter-arguments in the callback', function() {
       var resultArr = roam(json).get('name');
