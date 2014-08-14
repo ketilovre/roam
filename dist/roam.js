@@ -28,17 +28,16 @@
     (function() {
         "use strict";
         function shallow(identifier, value, exitEarly) {
-            var current, j, i = -1, memory = [];
+            var current, memory = [];
             if (!(value instanceof Array) && value.hasOwnProperty(identifier)) {
                 memory.push(value[identifier]);
             } else {
-                outer: while (++i < value.length) {
+                outer: for (var i = 0, l = value.length; i < l; i++) {
                     current = value[i];
                     if (current.hasOwnProperty(identifier)) {
                         memory.push(current[identifier]);
                     } else if (current instanceof Array) {
-                        j = -1;
-                        while (++j < current.length) {
+                        for (var j = 0, m = current.length; j < m; j++) {
                             if (current[j].hasOwnProperty(identifier)) {
                                 memory.push(current[j][identifier]);
                                 if (exitEarly) {
