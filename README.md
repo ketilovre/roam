@@ -256,7 +256,7 @@ Filter is a convenience method in the same vein as map, and shares its performan
 For details on how a filter function works, see the documentation for [filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter).
 
 ```javascript
-roam(json).map('*value', function(val) {
+roam(json).filter('*value', function(val) {
   return val.slice(-1) === 'e';
 });
 ```
