@@ -4,15 +4,11 @@
   "use strict";
 
   Roam.prototype.has = function(path) {
-    return !!this.get(path).length;
+    return this.one(path) !== undefined;
   };
 
   Roam.prototype.count = function(path) {
     return this.get(path).length;
-  };
-
-  Roam.prototype.one = function(path) {
-    return this.get(path).shift();
   };
 
   Roam.prototype.filter = function(path, callback) {

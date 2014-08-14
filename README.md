@@ -1,8 +1,8 @@
 # Roam
 
-[![Build Status](https://travis-ci.org/ketilovre/roam.svg?branch=master)](https://travis-ci.org/ketilovre/roam)
+<!-- [![Build Status](https://travis-ci.org/ketilovre/roam.svg?branch=master)](https://travis-ci.org/ketilovre/roam)
 [![Code Climate](https://codeclimate.com/github/ketilovre/roam/badges/gpa.svg)](https://codeclimate.com/github/ketilovre/roam)
-[![Test Coverage](https://codeclimate.com/github/ketilovre/roam/badges/coverage.svg)](https://codeclimate.com/github/ketilovre/roam)
+[![Test Coverage](https://codeclimate.com/github/ketilovre/roam/badges/coverage.svg)](https://codeclimate.com/github/ketilovre/roam) -->
 
 XPath-like queries and in-place transformations for JSON documents.
 
@@ -57,18 +57,30 @@ Will return:
 
 ### Roam
 
-- `roam({Object})`
+- `roam({Object|String})`
 
-Construct a roam object by wrapping a JSON object.
+Construct a `roam` object by wrapping a JSON object or string.
 
-### Get
+### Search
+
+Search-methods locate and return values based on a given path. Path segments are separated
+by periods.
+
+#### Get
 
 - `.get({String})`
 
-Get traverses the document and returns an array of matching values. Path segments are separated
-by periods.
+`.get` traverses the document and returns an array of matching values.
 
 ` roam(json).get('menu.id') ` returns ` ["file"] `
+
+#### One
+
+- `.one({String})`
+
+`.one` immediately returns the first matched property.
+
+`roam(json).one('*menuitem.onclick')` returns `"CreateNewDoc()"`
 
 #### Recursive queries
 
@@ -107,7 +119,7 @@ Will return:
 
 - `.transform({String}, {Function(value)})`
 
-Transform traverses the document, replaces matching values with the return value of the callback,
+`.transform` traverses the document, replaces matching values with the return value of the callback,
 and returns the document in its entirety.
 
 ```javascript
@@ -228,7 +240,7 @@ Returns:
 
 - `.map({String}, {Function(value, index, array)})`
 
-Map is a convenience method, equivalent to running `.map` or `_.map` on the returned
+`.map` is a convenience method, equivalent to running `.map` or `_.map` on the returned
 array from a `.get`. Roam's `.map` is significantly faster than JavaScript's native `.map`,
 and roughly equivalent to lodash's `_.map`. For details on how a map function works, see
 the documentation for [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map).
@@ -252,11 +264,11 @@ Returns:
 
 - `.filter({String}, {Function(value, index, array)})`
 
-Filter is a convenience method in the same vein as map, and shares its performance characteristics.
+`.filter` is a convenience method in the same vein as map, and shares its performance characteristics.
 For details on how a filter function works, see the documentation for [filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter).
 
 ```javascript
-roam(json).map('*value', function(val) {
+roam(json).filter('*value', function(val) {
   return val.slice(-1) === 'e';
 });
 ```
@@ -270,3 +282,18 @@ Returns:
 
 ##### A note on map and filter
 Neither map nor filter support binding a custom value to `this` within the callback.
+
+### Utilities
+
+#### Count
+
+- `.count({String})`
+
+`.count` is a wrapper around `.get` and will return the number of matched elements.
+
+#### Has
+
+- `.has({String})`
+
+`.has` is a wrapper around `.one` and will return true or false depending on whether a match
+could be found.
