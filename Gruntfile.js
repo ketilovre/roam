@@ -10,10 +10,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-jasmine-node-coverage');
   grunt.loadNpmTasks('grunt-release');
+  grunt.loadNpmTasks('grunt-jsdoc');
 
   grunt.registerTask('test', ['jshint', 'karma:unit']);
-  grunt.registerTask('build', ['uglify', 'jshint', 'karma', 'jasmine_node']);
+  grunt.registerTask('build', ['jsdoc', 'uglify', 'jshint', 'karma', 'jasmine_node']);
   grunt.registerTask('ci', ['jshint', 'karma', 'jasmine_node']);
   grunt.registerTask('default', 'build');
 
@@ -31,9 +33,6 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      options: {
-        wrap: 'jpath'
-      },
       min: {
         options: {
           mangle: true,
@@ -68,7 +67,8 @@ module.exports = function(grunt) {
         forceExit: true,
         specNameMatcher: 'Spec'
       },
-      all: ['test/']
+      all: ['test/'],
+      coverage: {}
     },
 
     karma: {
@@ -89,12 +89,11 @@ module.exports = function(grunt) {
         options: {
           files: [
             'src/roam.js',
-            'src/**/*.js',
             'test/**/*.js'
           ],
           reporters: ['dots', 'coverage'],
           preprocessors: {
-            'src/**/*.js': 'coverage'
+            'src/roam.js': 'coverage'
           },
           coverageReporter: {
             type: "lcov",
@@ -113,6 +112,15 @@ module.exports = function(grunt) {
           reporters: ['dots'],
           browsers: ['PhantomJS'],
           port: 9877
+        }
+      }
+    },
+
+    jsdoc: {
+      dist: {
+        src: ['src/roam.js'],
+        options: {
+          destination: 'doc'
         }
       }
     }

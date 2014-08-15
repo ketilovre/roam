@@ -7,3 +7,4 @@ bower.json
 .jshintrc
 .travis.yml
 coverage
+doc

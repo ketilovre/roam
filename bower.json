@@ -30,6 +30,7 @@
     ".jshintrc",
     "package.json",
     ".travis.yml",
-    ".npmignore"
+    ".npmignore",
+    "doc"
   ]
 }
