@@ -10,7 +10,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-jasmine-node');
-  grunt.loadNpmTasks('grunt-jasmine-node-coverage');
   grunt.loadNpmTasks('grunt-release');
   grunt.loadNpmTasks('grunt-jsdoc');
 
@@ -39,7 +38,7 @@ module.exports = function(grunt) {
           compress: true
         },
         files: {
-          'dist/roam.min.js': ['src/roam.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
+          'dist/roam.min.js': ['src/roam.js']
         }
       },
       concat: {
@@ -50,7 +49,7 @@ module.exports = function(grunt) {
           preserveComments: 'some'
         },
         files: {
-          'dist/roam.js': ['src/roam.js', 'src/**/*.js', '!src/export.js', 'src/export.js']
+          'dist/roam.js': ['src/roam.js']
         }
       }
     },
@@ -59,7 +58,7 @@ module.exports = function(grunt) {
       options: {
         jshintrc: true
       },
-      all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js']
+      all: ['Gruntfile.js', 'src/roam.js', 'test/**/*.js']
     },
 
     jasmine_node: {
@@ -67,8 +66,7 @@ module.exports = function(grunt) {
         forceExit: true,
         specNameMatcher: 'Spec'
       },
-      all: ['test/'],
-      coverage: {}
+      all: ['test/']
     },
 
     karma: {

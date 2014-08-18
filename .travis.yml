@@ -13,5 +13,4 @@ script: grunt ci
 after_script:
  - mv coverage/*/lcov.info coverage/lcov.info
  - export CODECLIMATE_REPO_TOKEN=27f8c2e8a2ceb8ff999d40efb9b9a68daf9c37a8c12d49e871b921f8ee9d8a3f
- - node_modules/.bin/lcov-result-merger 'coverage/**/*lcov.info' 'coverage/merged.info'
- - codeclimate < coverage/merged.info
+ - codeclimate < coverage/lcov.info
