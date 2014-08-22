@@ -1,6 +1,6 @@
 {
   "name": "roam",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "https://github.com/ketilovre/roam",
   "authors": [
     "Ketil Øvrebø <ketilovre@gmail.com>"
@@ -30,6 +30,7 @@
     ".jshintrc",
     "package.json",
     ".travis.yml",
-    ".npmignore"
+    ".npmignore",
+    "doc"
   ]
 }
