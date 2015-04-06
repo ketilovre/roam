@@ -285,6 +285,12 @@ Neither map nor filter support binding a custom value to `this` within the callb
 
 ### Utilities
 
+#### Distinct
+
+- `.distinct({String})`
+
+`.distinct` is a wrapper around `.filter` and will return unique values.
+
 #### Count
 
 - `.count({String})`

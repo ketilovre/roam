@@ -404,6 +404,23 @@
 
 
   /**
+   * Distinct is a convenience method which wraps .filter and only returns unique values.
+   *
+   * @function distinct
+   * @memberof Roam
+   * @instance
+   * @param  {String}   path     A period-separated property path.
+   * @return {Array}             An array containing distinct values.
+   */
+  Roam.prototype.distinct = function(path) {
+    return this.filter(path, function(value, index, self) {
+      return self.indexOf(value) === index;
+    });
+  };
+
+
+
+  /**
    * The exported function is a constructor for the Roam object.
    *
    * @constructs Roam

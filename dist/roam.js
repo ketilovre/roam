@@ -171,6 +171,11 @@
         }
         return arr;
     };
+    Roam.prototype.distinct = function(path) {
+        return this.filter(path, function(value, index, self) {
+            return self.indexOf(value) === index;
+        });
+    };
     return function(json) {
         return new Roam(json);
     };

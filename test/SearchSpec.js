@@ -89,4 +89,12 @@ describe('search', function() {
     });
   });
 
+  describe('distinct', function() {
+    it('should only return unique values', function() {
+      var uniques = ['None', 'Glazed', 'Sugar', 'Powdered Sugar', 'Chocolate with Sprinkles', 'Chocolate', 'Maple'];
+      expect(roam(json).distinct('*topping.type')).toEqual(uniques);
+      expect(roam(json).distinct('*topping.type')).not.toEqual(roam(json).get('*topping.type'));
+    });
+  });
+
 });
